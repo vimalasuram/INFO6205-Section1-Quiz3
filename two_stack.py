@@ -5,6 +5,8 @@ This algorithm evaluates arithmetic expressions written in infix notation using 
 1. **Operand Stack:** Stores numbers (operands).
 2. **Operator Stack:** Stores operators (+, -, *, /).
 
+eg: "((3 + 2) * 5)" evaluates to 25
+
 ### How It Works:
 - **When encountering a number:** Push it onto the operand stack.
 - **When encountering an operator:** Push it onto the operator stack.
