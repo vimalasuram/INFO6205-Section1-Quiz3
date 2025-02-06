@@ -21,41 +21,46 @@ eg: "((3 + 2) * 5)" evaluates to 25
 This ensures correct evaluation based on operator precedence and parentheses.
 """
 
+
 def evaluate_expression(expression: str) -> int:
     """
     Evaluate an arithmetic expression using Dijkstra’s Two-Stack Algorithm.
-
+    
     :param expression: str - The arithmetic expression in infix notation.
     :return: int - The result of evaluating the expression.
     """
     operators = []
     operands = []
     
-    def push_operator(op: str):
-        """Push an operator onto the operator stack."""
+    def apply_operator(op: str, val2: int, val1: int) -> int:
+        """Applies an operator to two operands."""
+        if op == '+': return val1 + val2
+        if op == '-': return val1 - val2
+        if op == '*': return val1 * val2
+        if op == '/': return val1 // val2  # Integer division
     
-    def push_operand(val: int):
-        """Push an operand onto the operand stack."""
+    i = 0
+    while i < len(expression):
+        char = expression[i]
+        if char == ' ':
+            i += 1
+            continue
+        elif char == '(':
+            pass  # Do nothing for left parenthesis
+        elif char.isdigit():
+            num = 0
+            while i < len(expression) and expression[i].isdigit():
+                num = num * 10 + int(expression[i])
+                i += 1
+            operands.append(num)
+            continue
+        elif char in '+-*/':
+            operators.append(char)
+        elif char == ')':
+            op = operators.pop()
+            val2 = operands.pop()
+            val1 = operands.pop()
+            operands.append(apply_operator(op, val2, val1))
+        i += 1
     
-    def pop_operator() -> str:
-        """Pop and return the top operator from the operator stack."""
-    
-    def pop_operand() -> int:
-        """Pop and return the top operand from the operand stack."""
-    
-    def apply_operator(op: str, val1: int, val2: int) -> int:
-        """
-        Applies an operator to two operands.
-
-        :param op: str - The operator ('+', '-', '*', '/').
-        :param val1: int - The first operand.
-        :param val2: int - The second operand.
-        :return: int - The result of applying the operator.
-        """
-    
-    """
-    Evaluate the expression one character at a time, the operand stack
-    will contain the final result at the end
-    """
-    
-    return pop_operand()
+    return operands.pop()
